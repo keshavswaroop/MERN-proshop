@@ -1,0 +1,166 @@
+Required Comands
+
+1. Create App -> Npx create-react-app frontend
+2. Import bootstrap  -> npm i react-bootstrap bootstrap react-icons
+3. In the index.js file ->  
+	
+	import "bootstrap/dist/css/bootstrap.min.css"
+4. npm start
+5. npm i react-router-bootstrap
+6. npm i react-router-dom
+7. npm i express
+8. npm init
+
+
+
+<header>
+<Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect> 
+<Container>
+<Navbar.Brand href="/">ProShop</Navbar.Brand>
+</Container>
+</Navbar>
+</header>
+The <Navbar> Means: 
+Has a dark background color (bg="dark").
+Uses a dark color scheme for its elements (variant="dark").
+Stays expanded on larger screens (expand="lg").
+Automatically collapses after a link is selected (collapseOnSelect).
+
+Container is used so that the conponents inside the navbar donot expand to the edges
+<Navbar.Brand>  is used to specify the logo or etc.
+
+
+
+
+
+
+======================================================================
+Router:
+
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<App />}>
+      <Route index={true} path="/" element={<HomeScreen />} />
+    </Route>
+  )
+);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
+);
+
+
+We use Outlet in the app.js as we have defined routers in the index.js
+Insted of using <a> tag, we use Link tag because it donot reloads the page. And instead of href we use to  -> i.e <Link to=""/>
+
+In the <Nav.Link> and <Navbar.Brand> we have href bur we cannot replace it with the to, use we use LinkContainer which has a to and put the Nav.Link inside the LinkContainer
+
+we use ellipses for making the data in a single line. text-overflow
+
+import {useParams} from "react-router-dom"  -> this is used to get id from the url
+
+
+
+
+FULL STACK WORKFLOW:
+--------------------
+
+		GET
+		POST
+		PUT
+		DELETE        /api/products  HTTP REQUEST                    MONGOOSE QUERY     
+CLIENT<========================> REST api<========================> SERVER-------------------> MONGO db
+	   RESPONSE/DATA                     HTTP RESPONSE
+REACT                         AUTH MIDDLEWARE                   NODE EXPRESS
+
+
+
+BACKEND:
+========
+npm init
+
+by running the above comand we get a package.json file and provide the details
+{
+  "name": "proshop",
+  "version": "1.0.0",
+  "description": "eCommerce Application built with the MERN stack",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "author": "Swaroop S",
+  "license": "MIT"
+}
+
+We change the test to start and add "type": "module", so that we can use import statements
+
+app.get("/", (req, res) => res.send(`API is running on port : ${port}`));
+here, the get funxtion takes 2 parameters, that is the url and an arrow function. The arraow function has 2 parameters, the request and response. the res.send() is used the message.
+
+app.listen(port, () => console.log("Server is running"));
+this is used to run the file. listen() takes in 2 parameters, the port number and the function/.
+
+npm i -D nodemon concurrently     -> Here -D refers to deployment (dev dependancy) that means we donot need it in production.
+
+Then, we add this -> "server": "nodemon backend/server.js" in the scripts of package.json
+the script looks like this:
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+
+here we define at what name what shoud be run, for example, if i give npm run server, it runs the server using the nodemon and goes to backend/server.js
+
+the last dev line is to run both the frontend and backend concurrently.  the \ is used to neglect " or as a escape character.
+
+
+
+npm i -D dotenv  -> this is used to define environment variable
+
+
+then we define a .env file where all the environment variables are kept.
+to use this first we import dotenv from "dotenv";
+then execute this before using the contents from the .env file->dotenv.config();
+
+to use the contents prefix the variable name with process.env  i.e const port = process.env.PORT;
+
+
+npm i axios   -> this is used to fetch the data. We can use fetch api also but axios is more recomended.
+in the development stage, we use proxy -> "proxy": "http://localhost:5000" so that we no need to type it completely.
+
+useEffect is used to ren a function when the dependancy value is changed. it takes 2 values, 1 the function and the 2nd is the dependancy array or value. If we want the function to run when we open the file / run when the website is loaded at first, we leave it empty array.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Github link to CodePipeline
