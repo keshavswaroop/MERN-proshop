@@ -142,6 +142,9 @@ in the development stage, we use proxy -> "proxy": "http://localhost:5000" so th
 
 useEffect is used to ren a function when the dependancy value is changed. it takes 2 values, 1 the function and the 2nd is the dependancy array or value. If we want the function to run when we open the file / run when the website is loaded at first, we leave it empty array.
 
+we use bcryptjs for hashing of password.
+to install the bcrypt, npm i bcryptjs 
+
 
 
 
