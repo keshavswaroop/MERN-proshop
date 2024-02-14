@@ -3,29 +3,48 @@ import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useGetProductsQuery } from "../slices/productApiSlice";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
 
 const HomeScreen = () => {
-  const [products, setProduct] = useState([]);
+  // the below code is done to fetch the data from the backend
+  // const [products, setProduct] = useState([]);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await axios.get(`/api/products`);
-      setProduct(data);
-    };
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const { data } = await axios.get(`/api/products`);
+  //     setProduct(data);
+  //   };
 
-    fetchProducts();
-  }, []);
+  //   fetchProducts();
+  // }, []);
+
+  //now we are fetching the data using apiSlicing
+  //we get some things from useGetProductQuery, they are data,isLoading,isError
+
+  const { data: products, isLoading, isError: error } = useGetProductsQuery();
 
   return (
     <>
-      <h1>Latest Products</h1>
-      <Row>
-        {products.map((pro) => (
-          <Col key={pro._id} sm={12} md={6} lg={4} xl={3}>
-            <Product product={pro} />
-          </Col>
-        ))}
-      </Row>
+      {isLoading ? (
+        <Loader />
+      ) : error ? (
+        <Message varient="danger">
+          {error?.data?.message || error.error}
+        </Message>
+      ) : (
+        <>
+          <h1>Latest Products</h1>
+          <Row>
+            {products.map((pro) => (
+              <Col key={pro._id} sm={12} md={6} lg={4} xl={3}>
+                <Product product={pro} />
+              </Col>
+            ))}
+          </Row>
+        </>
+      )}
     </>
   );
 };

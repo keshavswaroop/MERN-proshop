@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import colors from "colors";
 import dotenv from "dotenv";
-import users from "./data/users";
-import products from "./data/products";
+import users from "./data/users.js";
+import products from "./data/products.js";
 import User from "../backend/models/userModel.js";
 import Product from "../backend/models/productModel.js";
 import Order from "../backend/models/orderModel.js";
@@ -26,5 +26,35 @@ const importData = async () => {
     const sampleProducts = products.map((prod) => {
       return { ...prod, user: adminUser };
     });
-  } catch (error) {}
+
+    await Product.insertMany(sampleProducts);
+
+    console.log("Data Imported".green.inverse);
+    process.exit();
+  } catch (error) {
+    console.error(`${error}`.red.inverse);
+    process.exit(1);
+  }
 };
+
+const destroyData = async () => {
+  try {
+    await Order.deleteMany();
+    await Product.deleteMany();
+    await User.deleteMany();
+
+    console.log("Data Destroyed!".red.inverse);
+    process.exit(1);
+  } catch (error) {
+    console.log(`${error}`.red.inverse);
+    process.exit(1);
+  }
+};
+
+// process.argv is used to get the commands that are run. for example if we run node backend/seeder -hello, we can access -hello by typing process.argv[2]. Similarly, further commands can be accessed by increasing the index number.It starts from the index 2 as 0 and 1 have paths.
+//in package.json we write the scripts.
+if (process.argv[2] === "-d") {
+  destroyData();
+} else {
+  importData();
+}

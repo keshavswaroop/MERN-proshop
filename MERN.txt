@@ -10,6 +10,7 @@ Required Comands
 6. npm i react-router-dom
 7. npm i express
 8. npm init
+9. npm i axios
 
 
 
@@ -146,11 +147,65 @@ we use bcryptjs for hashing of password.
 to install the bcrypt, npm i bcryptjs 
 
 
+======================================================
+POSTMAN:
+----------
+1. we create a new workspace,
+2. we create a new environment to store environment variables, give the initial value, remember to save.
+3. we create an api, give it a name
+4. we create a collection to store every request i.e if we make any request, we want it in a collection. So we are creating 3 collections, users, orders, and products.
+  -> Here, we create a collection for product, click on 3 dot in the name of collection, select add request.
+  -> to use a variable, we use double braces {{baseURL}}
+  -> to get the details we use GET, then {{baseURL}}/products, we get the products. then clisk save.
 
 
 
+==============================================================================================================
+REDUX TOOLKIT
+-----------------------------------------------------------------
+
+come into frontend,
+install reduxtoolkit:
+npm i @reduxjs/toolkit react-redux   -> redux toolkit and react redux should be seen in package.json
+
+1. Store->  it holds the reduces where changes in the state takes place.
+2. UI-> the changes made in the stare is reflected ion the UI. Here the state is rendered in the UI
+3. Event Handler-> The UI must call the dispatch(in the event handler) for every change. Dispatch is an action or an event. This helps in the updation of the state in the store.
+
+in redux toolkit, first we create a store, then insted of creating just a reducer, we create a slice(the slice creates a reduces and then also creates a respective action creater.)
 
 
+Here we use 2 Hooks:
+1. useSelector: read a state.
+
+2. useDispatch:  dispatch a action
+
+
+const initialState = localStorage.getItem("cart")
+  ? JSON.parse(localStorage.getItem("cart"))
+  : { cartItems: [] };
+Here's a breakdown of the code and its functionality:
+
+1. Retrieving Data from Local Storage:
+
+const initialState = localStorage.getItem("cart")
+It attempts to fetch a value associated with the key "cart" from the browser's local storage.
+If found, it retrieves a stringified JSON representation of the saved cart data.
+If not found, it returns null.
+2. Conditional Initial State Handling:
+
+? JSON.parse(localStorage.getItem("cart"))
+If the previous step yielded a value (meaning a saved cart exists), it parses the retrieved string back into a JavaScript object using JSON.parse(). This object presumably contains cart item details.
+3. Default State:
+
+: { cartItems: [] }
+If no saved cart was found in local storage, this default state is assigned to initialState. It's an object with a single property: cartItems set to an empty array, indicating an empty cart.
+Summary:
+
+The code establishes the initial state for a cart-related feature, prioritizing data persistence.
+It first checks for existing cart data in local storage.
+If found, it utilizes the saved data to initialize the state.
+If not found, it starts with an empty cart state.
 
 
 
