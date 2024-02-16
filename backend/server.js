@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import productRoutes from "../backend/routes/productRoutes.js";
 import userRoutes from "../backend/routes/userRoutes.js";
+import orderRoutes from "../backend/routes/orderRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import cookieParser from "cookie-parser";
 
@@ -24,6 +25,7 @@ app.use(cookieParser()); //access req.cookies
 app.get("/", (req, res) => res.send(`API is running on port : ${port}`));
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

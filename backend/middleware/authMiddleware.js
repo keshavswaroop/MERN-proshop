@@ -1,5 +1,6 @@
 import User from "../models/userModel.js";
 import asyncHandler from "./asyncHandler.js";
+import jwt from "jsonwebtoken";
 
 //protect routes
 export const protect = asyncHandler(async (req, res, next) => {
@@ -12,12 +13,13 @@ export const protect = asyncHandler(async (req, res, next) => {
     try {
       const decoded = jwt.verify(token, process.env.JET_SECRET);
       req.user = await User.findById(decoded.userId).select("-password");
+      next();
     } catch (error) {
       res.status(401);
       throw new Error("Not authorized, token failed");
     }
   } else {
-    re.status(401);
+    res.status(401);
     throw new Error("Not authorized, no tokens");
   }
 });

@@ -207,6 +207,13 @@ It first checks for existing cart data in local storage.
 If found, it utilizes the saved data to initialize the state.
 If not found, it starts with an empty cart state.
 
+to create a backend file.(once the middleware and the models are created)
+Steps:
+1. we create a controller and a Route file.
+2. we create the controller file using the Model
+3. using the controller, we create the route file
+4. then we update the server.js file
+
 
 
 
