@@ -23,6 +23,7 @@ const cartSlice = createSlice({
       } else {
         state.cartItems = [...state.cartItems, item]; //add new items
       }
+      console.log(state.cartItems);
 
       return updateCart(state);
     },
