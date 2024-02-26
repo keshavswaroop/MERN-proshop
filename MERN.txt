@@ -216,6 +216,19 @@ Steps:
 
 
 
+To change/upload image in the website, we use Multer. Follow the steps to install and use:
+1. install Multer in the backend / the root directory: npm i multer
+2. Create a new route. And a folder to place the uploaded image.
+3. go to server.js and bring in  the route. and make the folder static.
+
+
+to create frontend:
+1. check for constants fie for url.
+2. we create a slice.
+3. Create a front end: a) we import it
+			b) we extract the required information: const [uploadImage, {isLoading: LoadingImage] = useUploadProductImageMutation();
+
+
 
 
 

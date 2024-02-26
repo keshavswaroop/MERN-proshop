@@ -1,4 +1,4 @@
-import { PRODUCT_URL } from "../constants";
+import { PRODUCT_URL, UPLOAD_URL } from "../constants";
 import { apiSlice } from "./apiSlice";
 
 export const productApiSlice = apiSlice.injectEndpoints({
@@ -7,6 +7,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: PRODUCT_URL,
       }),
+      providesTags: ["Products"], //this is so that we no need to reload the page again.
       keepUnusedDataFor: 5, // this is used to retrive the data from the cache. If the same data is queried within 5 seconds, we get the data feom the cache.
     }),
     getProductDetails: builder.query({
@@ -15,8 +16,42 @@ export const productApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+    createProduct: builder.mutation({
+      query: () => ({
+        url: PRODUCT_URL,
+        method: "POST",
+      }),
+      invalidatesTags: ["Product"], //this doesnot store any data in the cache. So that we can get fresh data
+    }),
+    updateProduct: builder.mutation({
+      query: (data) => ({
+        url: `${PRODUCT_URL}/${data.productId}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Products"],
+    }),
+    uploadProductImage: builder.mutation({
+      query: (data) => ({
+        url: `${UPLOAD_URL}`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    deleteProduct: builder.mutation({
+      query: (productId) => ({
+        url: `${PRODUCT_URL}/${productId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useGetProductsQuery, useGetProductDetailsQuery } =
-  productApiSlice; // here the name by which we call the builder (gere getProducts) gets prefixed with use and suffixed with Query
+export const {
+  useGetProductsQuery,
+  useGetProductDetailsQuery,
+  useCreateProductMutation,
+  useUpdateProductMutation,
+  useUploadProductImageMutation,
+  useDeleteProductMutation,
+} = productApiSlice; // here the name by which we call the builder (gere getProducts) gets prefixed with use and suffixed with Query

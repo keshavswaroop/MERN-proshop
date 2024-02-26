@@ -1,13 +1,21 @@
 //useParams is used to get id from the url.
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { useGetOrderDetailsQuery } from "../slices/orderApiSlice";
+import {
+  useDeliverOrderMutation,
+  useGetOrderDetailsQuery,
+  usePaidOrderMutation,
+} from "../slices/orderApiSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const OrderScreen = () => {
   const { id: orderId } = useParams();
+
+  const { userInfo } = useSelector((state) => state.auth);
 
   const {
     data: order,
@@ -17,6 +25,31 @@ const OrderScreen = () => {
   } = useGetOrderDetailsQuery(orderId);
   console.log(order);
 
+  const [deliverOrder, { isLoading: loadingDeliver }] =
+    useDeliverOrderMutation();
+
+  //const for paid
+  const [payOrder, { isLoading: loadingPay }] = usePaidOrderMutation();
+
+  const paidOrderHandler = async () => {
+    try {
+      await payOrder(orderId);
+      refetch();
+      toast.success("Order Paid");
+    } catch (err) {
+      toast.error(err?.data?.message || err.message);
+    }
+  };
+
+  const deliverOrderHandler = async () => {
+    try {
+      await deliverOrder(orderId);
+      refetch();
+      toast.success("Order delivered");
+    } catch (err) {
+      toast.error(err?.data?.message || err.message);
+    }
+  };
   return isLoading ? (
     <Loader />
   ) : error ? (
@@ -113,7 +146,35 @@ const OrderScreen = () => {
                 </Row>
               </ListGroup.Item>
               {/* PAY ORDER PLACEHOLDER / BUTTON */}
+              {loadingPay && <Loader />}
+              {userInfo && userInfo.isAdmin && !order.isPaid && (
+                <ListGroup.Item>
+                  <Button
+                    type="button"
+                    className="btn btn-block"
+                    onClick={paidOrderHandler}
+                  >
+                    Mark as Paid
+                  </Button>
+                </ListGroup.Item>
+              )}
               {/* PARK AS DELIVERED PLACEHOLDER   -> ADMIN FUNCTIONALITY */}
+
+              {loadingDeliver && <Loader />}
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListGroup.Item>
+                    <Button
+                      type="button"
+                      className="btn btn-block"
+                      onClick={deliverOrderHandler}
+                    >
+                      Mark as delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
             </ListGroup>
           </Card>
         </Col>

@@ -22,6 +22,24 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+    getOrders: builder.query({
+      query: () => ({
+        url: ORDERS_URL,
+      }),
+      keepUnusedDataFor: 5,
+    }), //mutation is used if we are changing something, if we are fetching the data we are using query
+    deliverOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `${ORDERS_URL}/${orderId}/deliver`,
+        method: "PUT",
+      }),
+    }),
+    paidOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `${ORDERS_URL}/${orderId}/pay`, //url check in the routes.
+        method: "PUT",
+      }),
+    }),
   }),
 });
 
@@ -29,4 +47,7 @@ export const {
   useCreateOrderMutation,
   useGetOrderDetailsQuery,
   useGetMyOrdersQuery,
+  useGetOrdersQuery,
+  useDeliverOrderMutation,
+  usePaidOrderMutation,
 } = orderApiSlice;
