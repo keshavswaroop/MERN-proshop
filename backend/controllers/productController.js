@@ -104,7 +104,7 @@ const createProductReview = asyncHandler(async (req, res) => {
     }
     const review = {
       name: req.user.name,
-      rating: Number(rating),
+      rating: rating,
       comment,
       user: req.user._id,
     };
@@ -117,7 +117,7 @@ const createProductReview = asyncHandler(async (req, res) => {
       product.reviews.length;
 
     await product.save();
-    res.status(200).jsin({ message: "Review added" });
+    res.status(200).json({ message: "Review added" });
   } else {
     res.status(404);
     throw new Error("Resource not found");
@@ -130,4 +130,5 @@ export {
   createProducts,
   updateProducts,
   deleteProducts,
+  createProductReview,
 };

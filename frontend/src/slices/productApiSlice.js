@@ -44,6 +44,14 @@ export const productApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    createReview: builder.mutation({
+      query: (data) => ({
+        url: `${PRODUCT_URL}/${data.productId1}/reviews`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Product"],
+    }),
   }),
 });
 
@@ -54,4 +62,5 @@ export const {
   useUpdateProductMutation,
   useUploadProductImageMutation,
   useDeleteProductMutation,
+  useCreateReviewMutation,
 } = productApiSlice; // here the name by which we call the builder (gere getProducts) gets prefixed with use and suffixed with Query
