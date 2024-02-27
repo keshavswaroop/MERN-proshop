@@ -8,9 +8,14 @@ const getProducts = asyncHandler(async (req, res) => {
   //pagination
   const pageSize = 2;
   const page = Number(req.query.pageNumber) || 1;
-  const count = await Product.countDocuments();
 
-  const products = await Product.find({})
+  const keyword = req.query.keyword
+    ? { name: { $regex: req.query.keyword, $options: "i" } } // $regex: req.query.keyword -> as we are taking the keyword from the url, we are making it to match even if the name donot match exactly with the product name. for example, if we search for iPhone, we nee to get the output even if the product name is iPhone13.$options: 'i' refers to make the comparision case insesitive.
+    : {};
+
+  const count = await Product.countDocuments({ ...keyword });
+
+  const products = await Product.find({ ...keyword })
     .limit(pageSize)
     .skip(pageSize * (page - 1)); //fetching all the data from the database.
 

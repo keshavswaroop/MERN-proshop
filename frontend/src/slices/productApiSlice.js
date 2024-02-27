@@ -4,9 +4,9 @@ import { apiSlice } from "./apiSlice";
 export const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: ({ pageNumber }) => ({
+      query: ({ keyword, pageNumber }) => ({
         url: PRODUCT_URL,
-        params: { pageNumber },
+        params: { keyword, pageNumber },
       }),
       providesTags: ["Products"], //this is so that we no need to reload the page again.
       keepUnusedDataFor: 5, // this is used to retrive the data from the cache. If the same data is queried within 5 seconds, we get the data feom the cache.

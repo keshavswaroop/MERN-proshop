@@ -24,12 +24,12 @@ const HomeScreen = () => {
 
   //now we are fetching the data using apiSlicing
   //we get some things from useGetProductQuery, they are data,isLoading,isError
-  const { pageNumber } = useParams();
+  const { pageNumber, keyword } = useParams();
   const {
     data,
     isLoading,
     isError: error,
-  } = useGetProductsQuery({ pageNumber });
+  } = useGetProductsQuery({ keyword, pageNumber });
 
   return (
     <>
@@ -49,7 +49,11 @@ const HomeScreen = () => {
               </Col>
             ))}
           </Row>
-          <Paginate pages={data.pages} page={data.page} />
+          <Paginate
+            pages={data.pages}
+            page={data.page}
+            keyword={keyword ? keyword : ""}
+          />
         </>
       )}
     </>
