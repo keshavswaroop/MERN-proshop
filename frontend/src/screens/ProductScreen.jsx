@@ -54,7 +54,7 @@ const ProductScreen = () => {
     data: product,
     isLoading,
     refetch,
-    isError: error,
+    error,
   } = useGetProductDetailsQuery(productId1);
 
   const [createReview, { isLoading: loadingProductReview }] =
@@ -95,7 +95,9 @@ const ProductScreen = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message varient="danger">error?.data?.message || error.error</Message>
+        <Message varient="danger">
+          {error?.data?.message || error.error}
+        </Message>
       ) : (
         <>
           <Meta title={product.name} />
