@@ -8,6 +8,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { Link, useParams } from "react-router-dom";
 import Paginate from "../components/Pagination";
+import ProductCarousel from "../components/ProductCarousel";
 
 const HomeScreen = () => {
   // the below code is done to fetch the data from the backend
@@ -33,7 +34,9 @@ const HomeScreen = () => {
 
   return (
     <>
-      {keyword && (
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
         <Link to="/" className="btn btn-light mb-4">
           Go Back
         </Link>
