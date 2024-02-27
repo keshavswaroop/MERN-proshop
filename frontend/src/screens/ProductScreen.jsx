@@ -14,7 +14,7 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
   useCreateReviewMutation,
@@ -25,6 +25,7 @@ import Message from "../components/Message";
 import { Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../slices/cartSlice";
+import Meta from "../components/Meta";
 
 const ProductScreen = () => {
   // const [product, setProducts] = useState([]);
@@ -97,6 +98,7 @@ const ProductScreen = () => {
         <Message varient="danger">error?.data?.message || error.error</Message>
       ) : (
         <>
+          <Meta title={product.name} />
           <Row>
             <Col md={5}>
               <Image src={product.image} alt={product.name} fluid />
