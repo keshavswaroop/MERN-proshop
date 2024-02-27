@@ -5,9 +5,16 @@ import Product from "../models/productModel.js";
 // @route   GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({}); //fetching all the data from the database.
+  //pagination
+  const pageSize = 2;
+  const page = Number(req.query.pageNumber) || 1;
+  const count = await Product.countDocuments();
 
-  res.json(products);
+  const products = await Product.find({})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1)); //fetching all the data from the database.
+
+  res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 // @desc    Fetch a products
